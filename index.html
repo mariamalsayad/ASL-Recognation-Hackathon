@@ -9,11 +9,14 @@
 <body>
     <h1>Hand Camera</h1>
 
-    <button id="start-camera">Start Camera</button>
-    <p id="status">Click the button to start.</p>
+    <button id="start-camera" disabled>Loading hand tracker...</button>
+    <p id="status">Loading MediaPipe...</p>
 
-    <video id="webcam" autoplay playsinline muted></video>
+    <div class="camera-container">
+        <video id="webcam" autoplay playsinline muted></video>
+        <canvas id="hand-overlay"></canvas>
+    </div>
 
-    <script src="camera.js"></script>
+    <script type="module" src="camera.js"></script>
 </body>
 </html>
