@@ -6,14 +6,52 @@
     <title>Hand Camera</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <h1>Hand Camera</h1>
 
-    <button id="start-camera">Start Camera</button>
+    <button id="start-camera" disabled>
+        Loading hand tracker...
+    </button>
+
     <p id="status">Click the button to start.</p>
 
-    <video id="webcam" autoplay playsinline muted></video>
+    <label for="sign-label">Sign:</label>
 
-    <script src="camera.js"></script>
+    <select id="sign-label">
+        <option value="Hello">Hello</option>
+        <option value="How">How</option>
+        <option value="Hungry">Hungry</option>
+    </select>
+
+    <button id="record-sample" disabled>
+        Record Sign
+    </button>
+
+    <button id="download-data">
+        Download Dataset
+    </button>
+
+    <p id="sample-count">Samples: 0</p>
+
+    <div class="camera-container">
+
+        <video
+            id="webcam"
+            autoplay
+            playsinline
+            muted>
+        </video>
+
+        <canvas id="hand-overlay"></canvas>
+
+    </div>
+
+
+    <script
+        type="module"
+        src="camera.js">
+    </script>
+
 </body>
 </html>
