@@ -14,25 +14,45 @@
         Loading hand tracker...
     </button>
 
+
     <p id="status">Click the button to start.</p>
 
-    <label for="sign-label">Sign:</label>
+    <div id="instructions">
+    <h3>How to use</h3>
+    <p>1. Put Hand in inital position</p>
+    <p>2. Click "Recognize Sign"</p>
+    <p>3. Wait for the countdown</p>
+    <p>4. Perform your sign when prompted</p>
+    <p>5. Confirm the detected word to hear it aloud</p>
+    </div>
 
-    <select id="sign-label">
-        <option value="Hello">Hello</option>
-        <option value="How">How</option>
-        <option value="Hungry">Hungry</option>
-    </select>
+   <label for="sign-label">Sign:</label>
+
+<select id="sign-label">
+    <option value="Hello">Hello</option>
+    <option value="How">How</option>
+    <option value="Hungry">Hungry</option>
+</select>
 
     <button id="record-sample" disabled>
-        Record Sign
+        Recognize Sign
     </button>
+    <div id="result-box" hidden>
+    <p>We detected:</p>
 
-    <button id="download-data">
-        Download Dataset
-    </button>
+    <h2 id="detected-word"></h2>
 
-    <p id="sample-count">Samples: 0</p>
+    <button id="confirm-sign">✓ Confirm</button>
+    <button id="retry-sign">↻ Retry</button>
+    <button id="cancel-sign">✕ Cancel</button>
+</div>
+
+  
+<button id="download-data">
+    Download Dataset
+</button>
+
+<p id="sample-count">Samples: 0</p>
 
     <div class="camera-container">
 

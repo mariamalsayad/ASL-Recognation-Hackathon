@@ -23,6 +23,15 @@ const downloadButton = document.getElementById("download-data");
 const sampleCount = document.getElementById("sample-count");
 
 
+const resultBox = document.getElementById("result-box");
+const detectedWord = document.getElementById("detected-word");
+
+const confirmButton = document.getElementById("confirm-sign");
+const retryButton = document.getElementById("retry-sign");
+const cancelButton = document.getElementById("cancel-sign");
+
+let currentPrediction = null;
+
 // --------------------
 // VARIABLES
 // --------------------
@@ -87,7 +96,9 @@ async function loadHandTracker() {
     } catch (error) {
 
         statusText.textContent =
-            "Tracker failed to load: " + error.message;
+            "Tracker failed to load: " + error.message; 
+
+            
 
         console.error(error);
     }
@@ -215,7 +226,8 @@ function finishRecording() {
 
 
     if (currentRecording.length > 0) {
-
+        
+        predictSign(currentRecording);
         const sample = {
 
             label: signLabel.value,
@@ -451,10 +463,123 @@ function downloadDataset() {
     URL.revokeObjectURL(url);
 }
 
+async function predictSign(frames) {
+
+    statusText.textContent = "⏳ Recognizing sign...";
+
+    try {
+        const response = await fetch(
+            "http://127.0.0.1:8000/predict",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    frames: frames
+                })
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Prediction failed");
+        }
+
+        const data = await response.json();
+
+        console.log("Predicted sign:", data.prediction);
+
+        // Save the prediction but DON'T speak yet
+        currentPrediction = data.prediction;
+
+        // Show prediction to user
+        statusText.textContent = "Sign recognized!";
+        detectedWord.textContent = data.prediction;
+        resultBox.hidden = false;
+
+    } catch (error) {
+        console.error(error);
+
+        statusText.textContent =
+            "Could not recognize sign.";
+    }
+}
+
+
+async function speakPrediction(text) {
+
+    try {
+        const response = await fetch(
+            "http://127.0.0.1:8000/speak",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    text: text
+                })
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Speech generation failed");
+        }
+
+        const audioBlob = await response.blob();
+
+        const audioURL = URL.createObjectURL(audioBlob);
+
+        const audio = new Audio(audioURL);
+
+        await audio.play();
+
+        audio.onended = () => {
+            URL.revokeObjectURL(audioURL);
+        };
+
+    } catch (error) {
+        console.error("Speech error:", error);
+    }
+}
 
 // --------------------
 // BUTTONS
 // --------------------
+
+confirmButton.addEventListener("click", async function () {
+
+    if (!currentPrediction) {
+        return;
+    }
+
+    statusText.textContent = "🔊 Speaking...";
+
+    await speakPrediction(currentPrediction);
+
+    statusText.textContent =
+        `Translated: ${currentPrediction}`;
+
+    resultBox.hidden = true;
+    currentPrediction = null;
+});
+
+retryButton.addEventListener("click", function () {
+
+    resultBox.hidden = true;
+    currentPrediction = null;
+
+    startRecording();
+});
+
+cancelButton.addEventListener("click", function () {
+
+    resultBox.hidden = true;
+    currentPrediction = null;
+
+    statusText.textContent =
+        "Ready. Click Recognize Sign when you want to translate.";
+});
 
 startButton.addEventListener(
     "click",
