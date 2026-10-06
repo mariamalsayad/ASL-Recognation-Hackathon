@@ -1,6 +1,6 @@
 # Beyond Words
 
-A web application that turns supported American Sign Language (ASL) signs into English text and speech. Built by a team of four during StormHacks at Simon Fraser University.
+A web application that turns supported American Sign Language (ASL) signs into spoken audio. Built by a team of four during StormHacks at Simon Fraser University.
 
 ## How It Works
 
