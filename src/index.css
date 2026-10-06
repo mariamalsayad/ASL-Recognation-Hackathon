@@ -128,3 +128,659 @@
     @apply font-sans;
     }
 }
+
+/* ================================
+   BEYOND WORDS — DARK THEME
+   ================================ */
+
+:root {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+
+  color: #ffffff;
+  background: #080b12;
+
+  /* Brand palette */
+  --indian-red: #cd5c5c;
+  --light-coral: #f08080;
+  --salmon: #fa8072;
+  --dark-salmon: #e9967a;
+  --light-salmon: #ffa07a;
+
+  --background: #080b12;
+  --background-soft: #0e121c;
+  --card: #121722;
+  --card-hover: #171d2a;
+
+  --text: #ffffff;
+  --text-muted: #9ca3af;
+  --border: rgba(255, 255, 255, 0.09);
+}
+
+/* ================================
+   RESET
+   ================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at 20% 0%,
+      rgba(250, 128, 114, 0.13),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(205, 92, 92, 0.08),
+      transparent 30%
+    ),
+    var(--background);
+
+  color: var(--text);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* ================================
+   MAIN APP
+   ================================ */
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.app {
+  width: min(1200px, 92%);
+  margin: 0 auto;
+  padding: 60px 0 90px;
+}
+
+/* ================================
+   HEADER / HERO
+   ================================ */
+
+.hero {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 55px;
+  animation: fadeUp 0.7s ease forwards;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  color: var(--salmon);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+
+  margin-bottom: 18px;
+}
+
+.logo-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--salmon);
+  box-shadow: 0 0 15px rgba(250, 128, 114, 0.8);
+}
+
+.hero h1 {
+  margin: 0;
+
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+
+  background: linear-gradient(
+    135deg,
+    #ffffff 30%,
+    var(--light-salmon)
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-subtitle {
+  margin: 22px auto 0;
+
+  max-width: 650px;
+
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+.hero-subtitle strong {
+  color: var(--light-coral);
+}
+
+/* ================================
+   INSTRUCTIONS
+   ================================ */
+
+.instructions {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+
+  margin: 0 auto 45px;
+}
+
+.instruction {
+  position: relative;
+
+  padding: 20px 18px;
+
+  background: rgba(18, 23, 34, 0.75);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+
+  opacity: 0;
+  transform: translateY(15px);
+
+  animation: instructionAppear 0.6s ease forwards;
+
+  transition:
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+
+.instruction:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.instruction:nth-child(2) {
+  animation-delay: 0.45s;
+}
+
+.instruction:nth-child(3) {
+  animation-delay: 0.7s;
+}
+
+.instruction:nth-child(4) {
+  animation-delay: 0.95s;
+}
+
+.instruction:nth-child(5) {
+  animation-delay: 1.2s;
+}
+
+.instruction:hover {
+  transform: translateY(-4px);
+
+  border-color: rgba(250, 128, 114, 0.4);
+
+  background: var(--card-hover);
+}
+
+.step-number {
+  display: block;
+
+  color: var(--salmon);
+
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+
+  margin-bottom: 9px;
+}
+
+.instruction h3 {
+  margin: 0 0 6px;
+
+  font-size: 0.95rem;
+  color: white;
+}
+
+.instruction p {
+  margin: 0;
+
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+/* ================================
+   CAMERA SECTION
+   ================================ */
+
+.camera-section {
+  padding: 20px;
+
+  background: rgba(18, 23, 34, 0.8);
+
+  border: 1px solid var(--border);
+  border-radius: 24px;
+
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.35);
+
+  animation: fadeUp 0.8s ease 0.3s both;
+}
+
+.camera-container {
+  position: relative;
+
+  width: 100%;
+  overflow: hidden;
+
+  background: #05070b;
+
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.camera-container video {
+  display: block;
+  width: 100%;
+  max-height: 650px;
+  object-fit: cover;
+
+  transform: scaleX(-1);
+}
+
+.camera-container canvas {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  transform: scaleX(-1);
+
+  pointer-events: none;
+}
+
+/* Camera corner guides */
+
+.camera-container::before {
+  content: "";
+
+  position: absolute;
+  inset: 20px;
+
+  border: 1px solid rgba(250, 128, 114, 0.2);
+  border-radius: 14px;
+
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ================================
+   STATUS
+   ================================ */
+
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+
+  margin-top: 18px;
+  padding: 4px 5px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: var(--salmon);
+
+  box-shadow: 0 0 10px rgba(250, 128, 114, 0.7);
+}
+
+/* ================================
+   BUTTONS
+   ================================ */
+
+button {
+  border: none;
+  border-radius: 12px;
+
+  padding: 13px 22px;
+
+  font-weight: 650;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.primary-button {
+  color: #140909;
+
+  background: linear-gradient(
+    135deg,
+    var(--salmon),
+    var(--light-salmon)
+  );
+
+  box-shadow: 0 8px 30px rgba(250, 128, 114, 0.2);
+}
+
+.primary-button:hover:not(:disabled) {
+  box-shadow: 0 10px 35px rgba(250, 128, 114, 0.35);
+}
+
+.secondary-button {
+  color: white;
+
+  background: rgba(255, 255, 255, 0.07);
+
+  border: 1px solid var(--border);
+}
+
+.confirm-button {
+  color: #170a0a;
+
+  background: var(--salmon);
+}
+
+.retry-button {
+  color: white;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  border: 1px solid var(--border);
+}
+
+.cancel-button {
+  color: var(--light-coral);
+
+  background: transparent;
+
+  border: 1px solid rgba(240, 128, 128, 0.25);
+}
+
+/* ================================
+   PROGRESS BAR
+   ================================ */
+
+.progress-container {
+  width: 100%;
+  height: 6px;
+
+  margin-top: 15px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.progress-bar {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: linear-gradient(
+    90deg,
+    var(--indian-red),
+    var(--salmon),
+    var(--light-salmon)
+  );
+
+  box-shadow: 0 0 15px rgba(250, 128, 114, 0.45);
+
+  transition: width 0.08s linear;
+}
+
+/* ================================
+   TRANSLATION RESULT
+   ================================ */
+
+.result-card {
+  margin-top: 22px;
+  padding: 30px;
+
+  text-align: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(250, 128, 114, 0.1),
+      rgba(18, 23, 34, 0.8)
+    );
+
+  border: 1px solid rgba(250, 128, 114, 0.25);
+
+  border-radius: 18px;
+
+  animation: resultAppear 0.45s ease forwards;
+}
+
+.result-label {
+  margin: 0 0 7px;
+
+  color: var(--text-muted);
+
+  font-size: 0.72rem;
+  font-weight: 700;
+
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.result-word {
+  margin: 0;
+
+  color: white;
+
+  font-size: clamp(2.3rem, 6vw, 4.5rem);
+
+  letter-spacing: -0.04em;
+}
+
+.result-word::first-letter {
+  color: var(--salmon);
+}
+
+.result-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin-top: 22px;
+}
+
+/* ================================
+   ERROR
+   ================================ */
+
+.error-message {
+  margin-top: 16px;
+  padding: 13px 16px;
+
+  color: #ffc0c0;
+
+  background: rgba(205, 92, 92, 0.12);
+
+  border: 1px solid rgba(205, 92, 92, 0.3);
+  border-radius: 10px;
+}
+
+/* ================================
+   FOOTER
+   ================================ */
+
+.footer {
+  margin-top: 45px;
+
+  text-align: center;
+
+  color: #626978;
+
+  font-size: 0.8rem;
+}
+
+.footer span {
+  color: var(--salmon);
+}
+
+/* ================================
+   ANIMATIONS
+   ================================ */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes instructionAppear {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes resultAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+
+@media (max-width: 900px) {
+  .instructions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .app {
+    width: 94%;
+    padding-top: 35px;
+  }
+
+  .hero {
+    margin-bottom: 35px;
+  }
+
+  .hero h1 {
+    font-size: 3.3rem;
+  }
+
+  .instructions {
+    grid-template-columns: 1fr;
+  }
+
+  .camera-section {
+    padding: 10px;
+    border-radius: 18px;
+  }
+
+  .camera-container {
+    border-radius: 13px;
+  }
+
+  .status-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .status-row button {
+    width: 100%;
+  }
+
+  .result-actions {
+    flex-direction: column;
+  }
+
+  .result-actions button {
+    width: 100%;
+  }
+}
+
+/* Fix dialog buttons */
+
+[role="alertdialog"] button,
+[role="dialog"] button {
+  color: #ffffff !important;
+}
+
+/* Try Again / secondary dialog button */
+[role="alertdialog"] button[data-variant="outline"],
+[role="dialog"] button[data-variant="outline"] {
+  background: #1a1f2b !important;
+  color: #ffffff !important;
+  border: 1px solid #f08080 !important;
+}
+
+[role="alertdialog"] button[data-variant="outline"]:hover,
+[role="dialog"] button[data-variant="outline"]:hover {
+  background: #2a2026 !important;
+  color: #ffa07a !important;
+}
