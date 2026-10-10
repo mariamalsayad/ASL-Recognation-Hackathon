@@ -1,5 +1,9 @@
 # Beyond Words
 
+
+
+<img width="919" height="702" alt="Screenshot 2026-10-09 at 10 20 41 PM" src="https://github.com/user-attachments/assets/72e59f96-d257-4aaf-95b7-921a9135c613" />
+
 A web application that turns supported American Sign Language (ASL) signs into spoken audio. Built by a team of four during StormHacks at Simon Fraser University.
 
 ## How It Works
