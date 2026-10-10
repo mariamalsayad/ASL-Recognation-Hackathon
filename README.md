@@ -3,6 +3,15 @@
 
 
 <img width="919" height="702" alt="Screenshot 2026-10-09 at 10 20 41 PM" src="https://github.com/user-attachments/assets/72e59f96-d257-4aaf-95b7-921a9135c613" />
+<img width="898" height="524" alt="Screenshot 2026-10-09 at 10 22 54 PM" src="https://github.com/user-attachments/assets/b9d84044-1d99-4865-a228-09a034345b4a" />
+<img width="909" height="567" alt="Screenshot 2026-10-09 at 10 23 29 PM" src="https://github.com/user-attachments/assets/b8dd980a-5564-4a8f-a5d5-95a457034f07" />
+<img width="931" height="488" alt="Screenshot 2026-10-09 at 10 23 08 PM" src="https://github.com/user-attachments/assets/35411401-f661-46e6-b2c9-3f840c1443c6" />
+<img width="850" height="555" alt="Screenshot 2026-10-09 at 10 23 20 PM" src="https://github.com/user-attachments/assets/c0e1d30f-b5b5-4b09-bd23-f1f78af33486" />
+
+
+
+
+
 
 A web application that turns supported American Sign Language (ASL) signs into spoken audio. Built by a team of four during StormHacks at Simon Fraser University.
 
