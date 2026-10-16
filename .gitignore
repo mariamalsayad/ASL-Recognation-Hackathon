@@ -26,6 +26,7 @@ dist-ssr
 .env
 .env.*
 !.env.example
+!.env.production
 
 # Python generated files and environments
 __pycache__/
