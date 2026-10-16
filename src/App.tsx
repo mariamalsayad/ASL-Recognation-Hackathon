@@ -2,7 +2,38 @@ import { Button } from "@/components/ui/button";
 import { useSignRecorder } from "@/hooks/useSignRecorder";
 import { speak } from "@/lib/api";
 import ConfirmWordDialog from "@/component/alertDialog";
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
+
+const STEPS = [
+  {
+    title: "Start your camera",
+    text: "Allow camera access so Beyond Words can see your hands.",
+  },
+  {
+    title: "Position your hands",
+    text: "Keep your hands clearly visible inside the camera frame.",
+  },
+  {
+    title: "Click Recognize Sign",
+    text: "Click the Recognize Sign button when you are ready.",
+  },
+  {
+    title: "Perform your sign",
+    text: "Perform your sign naturally while the app records your movement.",
+  },
+  {
+    title: "Check the translation",
+    text: "Review the word recognized by Beyond Words.",
+  },
+];
+
+function HandIcon() {
+  return (
+    <svg viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M24 36V14a3 3 0 016 0v16M30 30V9a3 3 0 016 0v21M36 30V12a3 3 0 016 0v24M42 34v-8a3 3 0 016 0v14c0 11-8 18-18 18-8 0-13-4-17-11l-6-10a3 3 0 015-3l8 8" />
+    </svg>
+  );
+}
 
 export default function App() {
   const s = useSignRecorder();
@@ -48,175 +79,148 @@ export default function App() {
     }
   };
 
+  const cameraOff = s.phase === "idle" || s.phase === "loading";
+  const isLive = s.phase === "ready" || s.phase === "recording";
+
   return (
     <main className="app">
-
       {/* HERO */}
       <header className="hero">
-        <div className="logo">
-          <span className="logo-dot"></span>
-          SIGN • TRANSLATE • SPEAK
+        <div className="hero-title-row">
+          <div className="wave-badge">
+            <HandIcon />
+          </div>
+          <h1>
+            Beyond <span className="word">Words</span>
+          </h1>
         </div>
 
-        <h1>Beyond Words</h1>
-
         <p className="hero-subtitle">
-          Sign naturally. <strong>Be understood instantly.</strong>
-          <br />
-         Helping people who use sign language communicate with those who don’t, by turning recognized signs into speech.
+          <strong>Sign naturally. Be understood instantly.</strong> Helping
+          people who use sign language communicate with those who don’t, by
+          turning recognized signs into speech.
         </p>
       </header>
 
-      {/* INSTRUCTIONS */}
-    <section className="instructions">
+      {/* STEPS */}
+      <ol className="instructions">
+        {STEPS.map((step) => (
+          <li key={step.title} className="instruction">
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+          </li>
+        ))}
+      </ol>
 
-  <article className="instruction">
-    <span className="step-number">STEP 01</span>
-    <h3>Start your camera</h3>
-    <p>
-      Allow camera access so Beyond Words can see your hands.
-    </p>
-  </article>
-
-  <article className="instruction">
-    <span className="step-number">STEP 02</span>
-    <h3>Position your hands</h3>
-    <p>
-      Keep your hands clearly visible inside the camera frame.
-    </p>
-  </article>
-
-  <article className="instruction">
-    <span className="step-number">STEP 03</span>
-    <h3>Click Recognize Sign</h3>
-    <p>
-      Click the Recognize Sign button when you are ready.
-    </p>
-  </article>
-
-  <article className="instruction">
-    <span className="step-number">STEP 04</span>
-    <h3>Perform your sign</h3>
-    <p>
-      Perform your sign naturally while the app records your movement.
-    </p>
-  </article>
-
-  <article className="instruction">
-    <span className="step-number">STEP 05</span>
-    <h3>Check the translation</h3>
-    <p>
-      Review the word recognized by Beyond Words.
-    </p>
-  </article>
-
-</section>
-
-      {/* CAMERA */}
-      <section className="camera-section">
-
-        <div className="camera-container">
-          <video
-            ref={s.videoRef}
-            muted
-            playsInline
-          />
-
+      {/* STUDIO */}
+      <section className="studio">
+        {/* CAMERA */}
+        <div className={`camera-container ${cameraOff ? "idle" : ""}`}>
+          <video ref={s.videoRef} muted playsInline />
           <canvas ref={s.canvasRef} />
+
+          {cameraOff && (
+            <div className="camera-hint">
+              <div className="hands">
+                <i>
+                  <HandIcon />
+                </i>
+                <i>
+                  <HandIcon />
+                </i>
+              </div>
+              <span>Your hands go here</span>
+            </div>
+          )}
+
+          <i className="corner tl" />
+          <i className="corner tr" />
+          <i className="corner bl" />
+          <i className="corner br" />
         </div>
 
-        {/* STATUS */}
-        <div className="status-row">
+        <div className="side">
+          {/* TRANSLATION BUBBLE */}
+          <div className="bubble" aria-live="polite">
+            <small>{confirmed ? "You signed (spoken aloud)" : "You signed"}</small>
 
-          <div className="status">
-            <span className="status-dot"></span>
+            <output className={`result-word ${confirmed ? "" : "empty"}`}>
+              {confirmed
+                ? [...confirmed].map((ch, i) => (
+                    <span
+                      key={`${confirmed}-${i}`}
+                      style={{ "--i": i } as CSSProperties}
+                    >
+                      {ch === " " ? "\u00a0" : ch}
+                    </span>
+                  ))
+                : "…"}
+            </output>
+          </div>
 
-            <span>{getStatusText()}</span>
+          {/* CONTROLS */}
+          <div className="controls">
+            <div className={`status ${isLive ? "live" : ""}`}>
+              <span className="status-dot" />
+              <span>{getStatusText()}</span>
+            </div>
 
-            {s.phase !== "idle" && s.phase !== "loading" && (
-              <span>• Hands: {s.hands}</span>
+            {/* RECORDING PROGRESS */}
+            {s.phase === "recording" && (
+              <div className="progress-container">
+                <div
+                  className="progress-bar"
+                  style={{ width: `${s.progress}%` }}
+                />
+              </div>
             )}
+
+            {/* START CAMERA */}
+            {s.phase === "idle" && (
+              <Button className="primary-button" onClick={s.startCamera}>
+                Start Camera
+              </Button>
+            )}
+
+            {/* RECORD */}
+            {s.phase === "ready" && (
+              <Button
+                className="sign-button"
+                disabled={!s.hands}
+                onClick={startRecording}
+              >
+                Recognize Sign
+              </Button>
+            )}
+
+            {/* RECORDING */}
+            {s.phase === "recording" && (
+              <Button className="sign-button" disabled>
+                Recording...
+              </Button>
+            )}
+
+            {/* PREDICTING */}
+            {s.phase === "predicting" && (
+              <Button className="sign-button" disabled>
+                Recognizing...
+              </Button>
+            )}
+
+            {/* REPLAY SPEECH */}
+            {confirmed && (s.phase === "idle" || s.phase === "ready") && (
+              <Button
+                className="secondary-button"
+                onClick={() => speak(confirmed)}
+              >
+                Say it again
+              </Button>
+            )}
+
+            {/* ERROR */}
+            {s.error && <div className="error-message">{s.error}</div>}
           </div>
-
-          {/* START CAMERA */}
-          {s.phase === "idle" && (
-            <Button
-              className="primary-button"
-              onClick={s.startCamera}
-            >
-              Start Camera
-            </Button>
-          )}
-
-          {/* RECORD */}
-          {s.phase === "ready" && (
-            <Button
-              className="primary-button"
-              disabled={!s.hands}
-              onClick={startRecording}
-            >
-              Recognize Sign
-            </Button>
-          )}
-
-          {/* RECORDING */}
-          {s.phase === "recording" && (
-            <Button
-              className="primary-button"
-              disabled
-            >
-              Recording...
-            </Button>
-          )}
-
-          {/* PREDICTING */}
-          {s.phase === "predicting" && (
-            <Button
-              className="primary-button"
-              disabled
-            >
-              Recognizing...
-            </Button>
-          )}
-
         </div>
-
-        {/* RECORDING PROGRESS */}
-        {s.phase === "recording" && (
-          <div className="progress-container">
-            <div
-              className="progress-bar"
-              style={{ width: `${s.progress}%` }}
-            />
-          </div>
-        )}
-
-        {/* ERROR */}
-        {s.error && (
-          <div className="error-message">
-            {s.error}
-          </div>
-        )}
-
-        {/* CONFIRMED TRANSLATION */}
-        {confirmed && (
-          <div className="result-card">
-
-            <p className="result-label">
-              Translation
-            </p>
-
-            <h2 className="result-word">
-              {confirmed}
-            </h2>
-
-            <p className="result-label">
-              Spoken aloud ✓
-            </p>
-
-          </div>
-        )}
-
       </section>
 
       {/* KEEP TEAMMATE'S CONFIRMATION DIALOG */}
@@ -229,15 +233,14 @@ export default function App() {
       />
 
       {/* FOOTER */}
-     <footer className="footer">
-  <p>© 2026 Beyond Words. All rights reserved.</p>
+      <footer className="footer">
+        <p>© 2026 Beyond Words. All rights reserved.</p>
 
-  <p className="footer-team">
-    Made by <span>Mariam</span>, <span>Puspita</span>,{" "}
-    <span>Andy</span> & <span>Chris</span>
-  </p>
-</footer>
-
+        <p className="footer-team">
+          Made by <span>Mariam</span>, <span>Puspita</span>, <span>Andy</span>{" "}
+          &amp; <span>Chris</span>
+        </p>
+      </footer>
     </main>
   );
 }
