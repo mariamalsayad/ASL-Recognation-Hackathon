@@ -2,6 +2,13 @@
 
 
 
+<img width="917" height="727" alt="Screenshot 2026-10-15 at 10 04 34 PM" src="https://github.com/user-attachments/assets/b68bb7cc-be09-4b38-97a2-7a441157c4e9" />
+
+<img width="891" height="639" alt="Screenshot 2026-10-15 at 10 04 48 PM" src="https://github.com/user-attachments/assets/41e95dd5-ae78-4f6f-8c2f-b57dd7099ae4" />
+<img width="1463" height="1075" alt="Hello in the speech recognition screenshot" src="https://github.com/user-attachments/assets/e1ce3122-7805-4184-8b8e-135e6723b1fa" />
+<img width="1426" height="1103" alt="Hello in a speech recognition interface" src="https://github.com/user-attachments/assets/3f99fb74-c0db-4cc5-81e5-901e501c0821" />
+
+
 
 
 
