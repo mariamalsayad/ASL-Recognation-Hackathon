@@ -21,12 +21,12 @@ model = load(MODEL_PATH)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
+    allow_origins=[origin.strip().rstrip("/") for origin in os.getenv("CORS_ORIGINS", ",".join([
         "http://127.0.0.1:5173",
         "http://localhost:5173",
         "https://beyond-words.tech",
         "https://www.beyond-words.tech",
-    ],
+    ])).split(",") if origin.strip()],
     allow_methods=["POST"],
     allow_headers=["Content-Type"],
 )
@@ -47,6 +47,11 @@ class PredictRequest(BaseModel):
 @app.get("/")
 def home():
     return {"message": "Backend is working!"}
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
 
 
 @app.post("/predict")

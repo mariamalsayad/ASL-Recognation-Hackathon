@@ -50,3 +50,52 @@ MediaPipe extracts hand landmarks from the webcam recording. The frontend sends 
 - Expand the training dataset with more signs, examples, and signers.
 - Evaluate recognition across different users and recording conditions.
 - Deploy the backend so recognition and speech work through the public website.
+
+## Deploy the public backend on Render
+
+The repository includes `render.yaml` for a Render web service. The backend runs
+on Render, so visitors do not need Python or a running server on their laptops.
+
+1. Push these deployment files to your GitHub repository.
+2. Open [Render's new Blueprint page](https://dashboard.render.com/select-repo?type=blueprint),
+   connect `mariamalsayad/ASL-Recognation-Hackathon`, and select the branch containing
+   `render.yaml`. Keep the repository root as the working directory: the backend
+   needs the `asl_model.joblib` file at the root.
+3. Enter `ELEVENLABS_API_KEY` in Render's secret environment field. Never put this
+   key in frontend variables or commit it. Recognition works without the key;
+   speech falls back to the browser voice if the speech API fails.
+4. Deploy and copy the HTTPS service URL shown by Render. Open
+   `https://YOUR-SERVICE.onrender.com/health` and check for `{"status":"ok"}`.
+5. Set `VITE_API_URL=https://YOUR-SERVICE.onrender.com` in the environment used
+   to build the frontend. For a manual local build, set it in `.env.production.local`.
+   Run `npm run build` and publish the resulting `dist` folder through your existing
+   frontend hosting process. Vite embeds this URL at build time, so changing it
+   requires rebuilding and publishing the website.
+6. Test **Start Camera → Recognize Sign → Confirm** on `https://beyond-words.tech`
+   from a second laptop. Allow camera access. No localhost backend is needed.
+
+`CORS_ORIGINS` on Render lists allowed frontend origins, separated by commas.
+Update it if you change your frontend domain. The health endpoint confirms that
+the server and model loaded; it does not test the ElevenLabs account.
+
+The Blueprint selects Render's free plan; consult
+[Render's free service limits](https://render.com/docs/free) for availability and
+idle spin-down behavior. Initial requests after inactivity can take longer.
+
+### Run the backend locally
+
+Use Python 3.13. From the repository root:
+
+```sh
+python3 -m venv backend/.venv
+# macOS / Linux:
+source backend/.venv/bin/activate
+# Windows PowerShell instead:
+# backend\.venv\Scripts\Activate.ps1
+python -m pip install -r backend/requirements.txt
+python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000
+```
+
+Copy `backend/.env.example` to `backend/.env` to configure local speech.
+The dependency versions match the environment that successfully loaded the
+checked-in model; keep scikit-learn aligned with the model when retraining.
